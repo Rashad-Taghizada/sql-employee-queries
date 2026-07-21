@@ -62,6 +62,7 @@ CREATE TABLE EMPLOYEESZ
 [EMAIL] NVARCHAR(60) UNIQUE,
 [ADDRESS] NVARCHAR (100)
 )
+EXEC sp_rename 'EMPLOYEE', 'EMPLOYEES';
 
 INSERT INTO EMPLOYEESZ
 ([FULLNAME], [AGE], [EMAIL], [ADDRESS])
@@ -79,47 +80,66 @@ VALUES
 ('MEHRIBAN OSMANOVA', 42,'MEHRIBAN@GMAIL.COM', 'GERMANY BERLIN'),
 ('ALIYE NEMETLI', 19,'ALIYE@GMAIL.COM', 'BAKU AZERBAIJAN')
 --1) Ishcilerin butun melumatlarini getirin.
-SELECT * FROM EMPLOYEESZ
+--Retrieve all information about the employees.
+SELECT * FROM EMPLOYEES
 --2) Ishcilerin yashlarinin cemini tapin
-SELECT SUM([AGE]) FROM EMPLOYEESZ
+--Find the sum of the employees' ages.
+SELECT SUM([AGE]) FROM EMPLOYEES
 --3) Ishcilerin yashlarinin ortalamasini tapin
-SELECT AVG ([AGE]) FROM EMPLOYEESZ
+--Find the average age of the employees.
+SELECT AVG ([AGE]) FROM EMPLOYEES
 --4) Ad ve soyadinda d herfi olan ishcilerin melumatlarini getirin.
-SELECT * FROM EMPLOYEESZ WHERE [FULLNAME] LIKE '%D%'
+--Retrieve the information of employees whose full name contains the letter "d".
+SELECT * FROM EMPLOYEES WHERE [FULLNAME] LIKE '%D%'
 --5) En son elave edilmish 5 ishcinin Ad soyadini ve yashini getirin.
-SELECT TOP 5 [FULLNAME], [AGE] FROM EMPLOYEESZ
+--Retrieve the full name and age of the last 5 employees added.
+SELECT TOP 5 [FULLNAME], [AGE] FROM EMPLOYEES
 ORDER BY [ID] DESC
 --6) Ishcilerin yashlarinin cemi ile yashlarinin ortalamasinin umumi cemini tapin.
-SELECT SUM([AGE]) +AVG([AGE]) FROM EMPLOYEESZ  
+--Find the total sum of the employees' age sum and average age.
+SELECT SUM([AGE]) +AVG([AGE]) FROM EMPLOYEES  
 --7) Yaşı 25-dən böyük olan işçilərin adını, emailini və ünvanını gətirin.
-SELECT [FULLNAME], [EMAIL], [ADDRESS] FROM EMPLOYEESZ WHERE [AGE]>25
+--Retrieve the name, email, and address of employees older than 25.
+SELECT [FULLNAME], [EMAIL], [ADDRESS] FROM EMPLOYEES WHERE [AGE]>25
 --8) Ad və soyadı "A" hərfi ilə başlayan işçilərin bütün məlumatlarını gətirin.
-SELECT * FROM EMPLOYEESZ WHERE [FULLNAME] LIKE 'A%'
+--Retrieve all information of employees whose full name starts with the letter "A".
+SELECT * FROM EMPLOYEES WHERE [FULLNAME] LIKE 'A%'
 --9) Email ünvanında "gmail" sözü olan işçilərin adını və emailini gətirin.
-SELECT [FULLNAME], [EMAIL] FROM EMPLOYEESZ WHERE [EMAIL] LIKE '%GMAIL%' 
+--Retrieve the name and email of employees whose email contains the word "gmail".
+SELECT [FULLNAME], [EMAIL] FROM EMPLOYEES WHERE [EMAIL] LIKE '%GMAIL%' 
 --10) Yaşı 20 ilə 30 arasında olan işçilərin bütün məlumatlarını göstərin.
- SELECT * FROM EMPLOYEESZ WHERE [AGE] BETWEEN 20 AND 30
+--Show all information of employees whose age is between 20 and 30.
+ SELECT * FROM EMPLOYEES WHERE [AGE] BETWEEN 20 AND 30
 --11) Ən gənc işçinin adını və yaşını gətirin.
-SELECT TOP 1 [FULLNAME], [AGE] FROM EMPLOYEESZ
+--Retrieve the name and age of the youngest employee.
+SELECT TOP 1 [FULLNAME], [AGE] FROM EMPLOYEES
 ORDER BY[AGE] ASC
 --12) Ən yaşlı işçinin bütün məlumatlarını gətirin.
-SELECT TOP 1 * FROM EMPLOYEESZ
+--Retrieve all information of the oldest employee.
+SELECT TOP 1 * FROM EMPLOYEES
 ORDER BY[AGE] DESC
 --13) Yaşı orta yaşdan böyük olan işçilərin adını və yaşını göstərin.
-SELECT [FULLNAME], [AGE] FROM EMPLOYEESZ WHERE [AGE] >(SELECT AVG([AGE]) FROM EMPLOYEESZ)
+--Show the name and age of employees whose age is greater than the average age.
+SELECT [FULLNAME], [AGE] FROM EMPLOYEES WHERE [AGE] >(SELECT AVG([AGE]) FROM EMPLOYEES)
 --14) Email ünvanında "gmail" sözü olan işçilərin sayını tapın.
-SELECT COUNT([ID]) FROM EMPLOYEESZ WHERE [EMAIL] LIKE'%GMAIL%'
+--Find the number of employees whose email contains the word "gmail".
+SELECT COUNT([ID]) FROM EMPLOYEES WHERE [EMAIL] LIKE'%GMAIL%'
 --15) Ad və soyadının uzunluğu 10 simvoldan çox olan işçilərin bütün məlumatlarını gətirin.
-SELECT * FROM EMPLOYEESZ WHERE LEN([FULLNAME])>10
+--Retrieve all information of employees whose full name length is more than 10 characters.
+SELECT * FROM EMPLOYEES WHERE LEN([FULLNAME])>10
 --16)Email ünvanı ".az" ilə bitən işçilərin adını və emailini göstərin.
-SELECT [FULLNAME], [EMAIL] FROM EMPLOYEESZ WHERE [EMAIL] LIKE '%.AZ' 
+--Show the name and email of employees whose email ends with ".az".
+SELECT [FULLNAME], [EMAIL] FROM EMPLOYEES WHERE [EMAIL] LIKE '%.AZ' 
 --17) Yaşı cüt olan işçilərin bütün məlumatlarını gətirin.
-SELECT * FROM EMPLOYEESZ WHERE [AGE]%2=0
+--Retrieve all information of employees whose age is even.
+SELECT * FROM EMPLOYEES WHERE [AGE]%2=0
 --18) Yaşı tək olan işçilərin adını və yaşını göstərin.
-SELECT [FULLNAME], [AGE] FROM EMPLOYEESZ WHERE [AGE]%2=1
+--Show the name and age of employees whose age is odd.
+SELECT [FULLNAME], [AGE] FROM EMPLOYEES WHERE [AGE]%2=1
 --19) Ən uzun ada (FullName) sahib işçinin bütün məlumatlarını gətirin.
-SELECT TOP 1* FROM EMPLOYEESZ  
+--Retrieve all information of the employee with the longest full name.
+SELECT TOP 1* FROM EMPLOYEES  
 ORDER BY LEN([FULLNAME]) DESC
-
 --20) Yaşı 5-ə tam bölünən işçilərin adını və yaşını gətirin.
- SELECT [FULLNAME], [AGE] FROM EMPLOYEESZ WHERE [AGE]%5=0
+--Retrieve the name and age of employees whose age is exactly divisible by 5.
+ SELECT [FULLNAME], [AGE] FROM EMPLOYEES WHERE [AGE]%5=0
